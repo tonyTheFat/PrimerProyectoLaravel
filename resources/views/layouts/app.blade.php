@@ -32,22 +32,36 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="http://www.creative-tim.com">Creative Tim</a>
+                <a class="navbar-brand" href="{{ url('/') }}">Primer Proyecto Laravel</a>
             </div>
 
             <div class="collapse navbar-collapse" id="navigation-example">
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="../components-documentation.html" target="_blank">
-                            Components
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://demos.creative-tim.com/material-kit-pro/presentation.html?ref=utp-freebie" target="_blank">
-                            <i class="material-icons">unarchive</i> Upgrade to PRO
-                        </a>
-                    </li>
-                    <li>
+                    @guest
+                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">{{ __('Ingresar') }}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">{{ __('Registro') }}</a></li>
+                    @else
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                                {{ Auth::user()->name }}<span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Cerrar sesión') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    @endguest
+                    <!-- <li>
                         <a href="https://twitter.com/CreativeTim" target="_blank" class="btn btn-simple btn-white btn-just-icon">
                             <i class="fa fa-twitter"></i>
                         </a>
@@ -61,7 +75,7 @@
                         <a href="https://www.instagram.com/CreativeTimOfficial" target="_blank" class="btn btn-simple btn-white btn-just-icon">
                             <i class="fa fa-instagram"></i>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
@@ -70,8 +84,6 @@
     <div class="wrapper">
         @yield('content')
     </div>
-
-
 </body>
     <!--   Core JS Files   -->
     <script src="{{ asset('js/jquery.min.js') }}" type="text/javascript"></script>
